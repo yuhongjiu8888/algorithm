@@ -14,6 +14,7 @@
 循环条件，当然是cur != nullptr
 循环结束后，cur当然为nullptr，所以返回pre，即为反转后的头结点。
 
+```c++
 class Solution {
 public:
     ListNode* ReverseList(ListNode* pHead) {
@@ -29,6 +30,7 @@ public:
         return pre;
     }
 };
+```
 
 2.设计LRU缓存结构，该结构在构造时确定大小，假设大小为K，并有如下两个功能
 set(key, value)：将记录(key, value)插入该结构
@@ -41,6 +43,7 @@ set和get方法的时间复杂度为O(1)
 若opt=2，接下来一个整数x，表示get(x)，若x未出现过或已被移除，则返回-1
 对于每个操作2，输出一个答案
 
+```c++
 #include <unordered_map>
 #include <list>
 #include <vector>
@@ -128,11 +131,15 @@ private:
     std::unordered_map<int, std::list<Node>::iterator> H;
     int cap;
 };
+```
+
+
 
 3.判断给定的链表中是否有环。如果有环则返回true，否则返回false。
 你能给出空间复杂度的解法么？
 	快慢指针法
 
+```c++
 class Solution {
 public:
     bool hasCycle(ListNode* head) {
@@ -144,72 +151,79 @@ public:
             if(p==q){
                 return true;
             }
- 
+
         }
         return false;
     }
+
 };
+```
 
 4.分别按照二叉树先序，中序和后序打印所有的节点。
 输入   {1,2,3}
 返回值 [[1,2,3],[2,1,3],[2,3,1]]
 
 解：递归方法
+
+```c++
 class Solution {
 public:
     /**
-     * 
-     * @param root TreeNode类 the root of binary tree
-     * @return int整型vector<vector<>>
-     */
-	//前序遍历
-    void preorder(TreeNode* root){
-        if(root != nullptr){
-            pre.push_back(root -> val);
-            preorder(root -> left);
-            preorder(root -> right);
-        }
-    }
- 
+
+   *  @param root TreeNode类 the root of binary tree
+        * @return int整型vector<vector<>>
+          /
+          //前序遍历
+              void preorder(TreeNode* root){
+          if(root != nullptr){
+              pre.push_back(root -> val);
+              preorder(root -> left);
+              preorder(root -> right);
+          }
+              }
+
 	//中序遍历
-    void inorder(TreeNode* root){
-        if(root != nullptr){
-            inorder(root -> left);
-            in.push_back(root -> val);
-            inorder(root -> right);
-        }
-    }
- 
+	void inorder(TreeNode* root){
+	    if(root != nullptr){
+	        inorder(root -> left);
+	        in.push_back(root -> val);
+	        inorder(root -> right);
+	    }
+	}
+	 
 	//后续遍历
-    void postorder(TreeNode* root){
-        if(root != nullptr){
-            postorder(root -> left);
-            postorder(root -> right);
-            post.push_back(root -> val);
-        }
-    }
-    vector<vector<int> > threeOrders(TreeNode* root) {
-        // write code here
-        vector<vector<int>> res;
-        preorder(root);
-        res.push_back(pre);
-        inorder(root);
-        res.push_back(in);
-        postorder(root);
-        res.push_back(post);
-        return res;
-    }
+	void postorder(TreeNode* root){
+	    if(root != nullptr){
+	        postorder(root -> left);
+	        postorder(root -> right);
+	        post.push_back(root -> val);
+	    }
+	}
+	vector<vector<int> > threeOrders(TreeNode* root) {
+	    // write code here
+	    vector<vector<int>> res;
+	    preorder(root);
+	    res.push_back(pre);
+	    inorder(root);
+	    res.push_back(in);
+	    postorder(root);
+	    res.push_back(post);
+	    return res;
+	}
+
 private: 
     vector<int> pre;
     vector<int> in;
     vector<int> post;
 };
+```
 
 5.请实现有重复数字的升序数组的二分查找。
 输出在数组中第一个大于等于查找值的位置，如果数组中不存在这样的数，则输出数组长度加一。
 输入 5,4,[1,2,4,4,5]
 返回值 3
 
+```c++
 class Solution {
 public:
     /**
@@ -230,11 +244,13 @@ public:
         return right + 1;
     }
 };
+```
 
 6.输入n个整数，找出其中最小的K个数。例如输入4,5,1,6,2,7,3,8这8个数字，则最小的4个数字是1,2,3,4。
 输入  [4,5,1,6,2,7,3,8],4
 返回值 [1,2,3,4]
 
+```c++
 class Solution {
 public:
     vector<int> GetLeastNumbers_Solution(vector<int> input, int k) {
@@ -247,18 +263,21 @@ public:
         return res;
     }
 };
+```
 
 7.有一个整数数组，请你根据快速排序的思路，找出数组中第K大的数。
 给定一个整数数组a,同时给定它的大小n和要找的K(K在1到n之间)，请返回第K大的数，保证答案存在。
 输入 [1,3,5,2,2],5,3
 返回值 2
 
+```c++
 class Solution {
 public:
     int findKth(vector<int> a, int n, int K) {
         // write code here
         if(K<1 || K>n) return 0;
         
+
         return quick_sort(a, 0, n - 1, n, K);  
     }
     int quick_sort(vector<int>& a, int start, int end, int n, int k) {
@@ -266,21 +285,22 @@ public:
         int i = start;
         int j = end;
         int res = 0;
- 
+     
         while (i < j) {
             while (i<j && a[j]>=base) --j;
             while (i<j && a[i]<=base) ++i;
             if (i < j) swap(a[i], a[j]);
         }
         swap(a[start], a[j]);
- 
+     
         if (n - j == k) return a[j];
         else if (n - j < k) res = quick_sort(a, start, j-1, n, k);
         else if (n - j > k) res = quick_sort(a, j+1, end, n, k);
         return res;
     }
-    
+
 };
+```
 
 8.给定一个二叉树，返回该二叉树层序遍历的结果，（从左到右，一层一层地遍历）
 例如：
@@ -294,6 +314,7 @@ public:
 ]
 解题思路:https://www.bilibili.com/video/BV1bK41137Fa/
     /**
+
  * struct TreeNode {
  *    int val;
  *    struct TreeNode *left;
@@ -301,6 +322,7 @@ public:
  * };
  */
 
+```c++
 class Solution {
 public:
     /**
@@ -329,9 +351,12 @@ public:
     }
 
 };
+```
 
 9.一只青蛙一次可以跳上1级台阶，也可以跳上2级。求该青蛙跳上一个n级的台阶总共有多少种跳法（先后次序不同算不同的结果）。
 解：考察知识：递归，记忆化搜索，动态规划和动态规划的空间优化。
+
+```c++
 class Solution {
 public:
     int jumpFloor(int n) {
@@ -345,6 +370,7 @@ public:
         return c;
     }
 };
+```
 
 10.将两个有序的链表合并为一个新链表，要求新的链表是通过拼接两个链表的节点来生成的，且合并后新链表依然有序。
 输入 {1},{2}
@@ -389,7 +415,7 @@ public:
                 q->next=p2;
                 q=p2;
                 p2=p2->next;
- 
+
             }
         }
         if(p1)//剩余的直接连接在后面
@@ -405,6 +431,7 @@ public:
 11.用两个栈来实现一个队列，完成队列的Push和Pop操作。 队列中的元素为int类型。
 解 ： https://www.nowcoder.com/practice/54275ddae22f475981afa2244dd448c6?tpId=190&tags=&title=&diffculty=0&judgeStatus=0&rp=1
 
+```c++
 class Solution
 {
 public:
@@ -428,6 +455,7 @@ private:
     stack<int> stack1;
     stack<int> stack2;
 };
+```
 
 12.给出一个整数数组，请在数组中找出两个加起来等于目标值的数，
 你给出的函数twoSum 需要返回这两个数字的下标（index1，index2），需要满足 index1 小于index2.。注意：下标是从1开始的
@@ -440,6 +468,8 @@ private:
 返回值  [2,3]
 
 解：
+
+```c++
 class Solution {
 public:
     /**
@@ -464,6 +494,7 @@ public:
         return res;
     }
 };
+```
 
 13.给出两个有序的整数数组A和B，请将数组B合并到数组A中，变成一个有序的数组
 注意：
@@ -471,6 +502,8 @@ public:
 知识点：数组 、双指针
 
 解：
+
+```c++
 class Solution {
 public:
     void merge(int A[], int m, int B[], int n) {
@@ -486,12 +519,14 @@ public:
         }
     }
 };
+```
 
 14.给定一个数组arr，返回arr的最长无的重复子串的长度(无重复指的是所有数字都不相同)。
 考点：哈希 双指针
 输入： [2,3,4,5]
 返回值：4
 
+```c++
 #include<unordered_map>
 class Solution {
 public:
@@ -529,21 +564,26 @@ public:
         return Max;
     }
 };
+```
 
 15.写出一个程序，接受一个字符串，然后输出该字符串反转后的字符串。（字符串长度不超过1000）
+
+```c++
 class Solution {
 public:
     /**
-     * 反转字符串
-     * @param str string字符串 
-     * @return string字符串
-     */
-    string solve(string str) {
-        // write code here
-        string tmp ;
-        tmp.assign(str.rbegin(),str.rend());
-        return tmp;
-    }
-};
+
+   * 反转字符串
+      @param str string字符串 
+        * @return string字符串
+          /
+              string solve(string str) {
+          // write code here
+          string tmp ;
+          tmp.assign(str.rbegin(),str.rend());
+          return tmp;
+              }
+          };
+```
 
 
